@@ -1,0 +1,191 @@
+﻿
+@{
+    ViewBag.Title = "Employee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="row">
+                <div class="col">
+                    <h4 class="page-title">Employee</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);">Employee</a></li>
+                        <li class="breadcrumb-item active">Employee</li>
+                    </ol>
+                </div><!--end col-->
+                <div class="col-auto align-self-center">
+                    <a href="/employee/employees" class="btn btn-sm btn-outline-primary" id="Dash_Date">
+                        <i data-feather="users" class="align-self-center icon-xs ml-1"></i> Employees
+                    </a>
+                </div><!--end col-->
+            </div><!--end row-->
+        </div><!--end page-title-box-->
+    </div><!--end col-->
+</div><!--end row-->
+<!-- end page title end breadcrumb -->
+
+<div class="row">
+    <div class="col-6">
+        <div class="card">
+        <div class="card-body">
+            <h2>Create Employee</h2>
+            <form id="employeeForm">
+                <div class="form-group">
+                    <label>First Name</label>
+                    <input type="text" class="form-control" id="firstName" name="firstName" />
+                </div>
+                <div class="form-group">
+                    <label>Last Name</label>
+                    <input type="text" class="form-control" id="lastName" name="lastName" />
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" id="email" name="email" onblur="checkEmployeeEmailDuplication()" />
+                </div>
+                <div class="form-group">
+                    <label>Date of birth</label>
+                    <input type="date" class="form-control" id="dob" name="dob" />
+                </div>
+                <div class="form-group">
+                    <label class="w-100">Select Gender</label>
+                    <p class="w-100 d-flex">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="genderMale" value="male" name="gender" class="custom-control-input" checked>
+                            <label class="custom-control-label" for="genderMale">Male</label>
+                        </div>
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="genderFemale" value="female" name="gender" class="custom-control-input">
+                            <label class="custom-control-label" for="genderFemale">Female</label>
+                        </div>
+
+                    </p>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="password" name="password" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <button type="button" class="btn btn-danger">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+<script>
+    var emailAddressValid = false;
+    $(document).ready(function () {
+        get18YearBackDate();
+        jQuery.validator.addMethod("complex_password", function (value, element) {
+            return this.optional(element) || /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/i.test(value);
+        }, "Password must contain 8 to 15 characters which contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character"); 
+        jQuery.validator.addMethod("lettersonly", function (value, element) {
+            return this.optional(element) || /^[a-z," "]+$/i.test(value);
+        }, "Letters only please"); 
+        $("#employeeForm").validate({
+            rules: {
+                firstName: {
+                    required: true,
+                    lettersonly:true,
+                    maxlength: 99,
+                    minlength: 2
+                },
+                lastName: {
+                    lettersonly:true,
+                    maxlength: 99,
+                    minlength: 2
+                },
+                password: {
+                    required: true,
+                    complex_password:true,
+                },
+                confirmPassword: {
+                    required: true,
+                    equalTo: "#password"
+                },
+                email: {
+                    required: true,
+                    email:true,
+                    maxlength: 150,
+                },
+                dob: {
+                    required: true,
+                    
+                }
+            },
+
+
+            messages: {
+                firstName: {
+                    required: "Enter first name",
+                    lettersonly:"Invalid name. Accepts alphabets only",
+                    maxlength: "Maximum 99 characters allowed",
+                    minlength: "Minimum 2 characters needed"
+                },
+                lastName: {
+                    lettersonly: "Invalid name. Accepts alphabets only",
+                    maxlength: "Maximum 99 characters allowed",
+                    minlength: "Minimum 2 characters needed"
+                },
+                password: { required: "Enter password", },
+                confirmPassword: {
+                    required: "Re-enter the password",
+                    equalTo: "Passwords are not equal"
+                },
+                email: {
+                    required: "Enter email address",
+                    email:"Enter a valid email address",
+                    maxlength: "Maximum 150 characters allowed",
+                },
+                dob: {
+                    required: "Select date of birth",
+                    max:'This person have age less than 18.'
+                }
+            }, errorPlacement: function (label, element) {
+                label.addClass('mt-2 text-danger');
+                label.insertAfter(element);
+            },
+            highlight: function (element, errorClass) {
+                $(element).parent().addClass('has-danger')
+                $(element).addClass('form-control-danger')
+            }
+        });
+        $("#employeeForm").submit(function (event) {
+            event.preventDefault();
+            if ($("#employeeForm").validate() && emailAddressValid) {
+
+            }
+        });
+    });
+
+    function get18YearBackDate() {
+        var eighteenYearsAgo = new Date(new Date().setFullYear(new Date().getFullYear() - 18));
+        $("#dob").attr('max', eighteenYearsAgo.getFullYear() + '-' + eighteenYearsAgo.getMonth() + '-' + eighteenYearsAgo.getDate());
+    }
+
+    function checkEmployeeEmailDuplication() {
+        $.get("/api/checkEmployeeEmailDuplication", { email: $("#email").val() }, function (success) {
+            if (success == true) {
+                //Email is in use
+                emailAddressValid = false;
+                var error_template = '<label id="email-error" class="error mt-2 text-danger" for="email">Email Address Existing</label>'
+                $("#email").parent().find("#email-error").remove();
+                $("#email").parent().append(error_template);
+            }
+            else {
+                //New email address
+                emailAddressValid = true;
+            }
+        });
+    }
+    
+</script>

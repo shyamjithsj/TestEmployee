@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DB_EMPLOYEESModelStoreContainer" CdmEntityContainer="DB_EMPLOYEESEntities">
+    <EntitySetMapping Name="tbl_logs">
+      <EntityTypeMapping TypeName="DB_EMPLOYEESModel.tbl_logs">
+        <MappingFragment StoreEntitySet="tbl_logs">
+          <ScalarProperty Name="log_id" ColumnName="log_id" />
+          <ScalarProperty Name="log_emp_id" ColumnName="log_emp_id" />
+          <ScalarProperty Name="log_action" ColumnName="log_action" />
+          <ScalarProperty Name="log_action_by" ColumnName="log_action_by" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_employees">
+      <EntityTypeMapping TypeName="DB_EMPLOYEESModel.tbl_employees">
+        <MappingFragment StoreEntitySet="tbl_employees">
+          <ScalarProperty Name="emp_status" ColumnName="emp_status" />
+          <ScalarProperty Name="emp_password" ColumnName="emp_password" />
+          <ScalarProperty Name="emp_gender" ColumnName="emp_gender" />
+          <ScalarProperty Name="emp_dob" ColumnName="emp_dob" />
+          <ScalarProperty Name="emp_email" ColumnName="emp_email" />
+          <ScalarProperty Name="emp_last_name" ColumnName="emp_last_name" />
+          <ScalarProperty Name="emp_first_name" ColumnName="emp_first_name" />
+          <ScalarProperty Name="emp_id" ColumnName="emp_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

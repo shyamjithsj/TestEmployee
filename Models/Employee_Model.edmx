@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DB_EMPLOYEESModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tbl_employees">
+          <Key>
+            <PropertyRef Name="emp_id" />
+          </Key>
+          <Property Name="emp_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="emp_first_name" Type="varchar" MaxLength="100" />
+          <Property Name="emp_last_name" Type="varchar" MaxLength="100" />
+          <Property Name="emp_email" Type="varchar" MaxLength="200" />
+          <Property Name="emp_dob" Type="date" />
+          <Property Name="emp_gender" Type="varchar" MaxLength="50" />
+          <Property Name="emp_password" Type="varchar" MaxLength="50" />
+          <Property Name="emp_status" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="tbl_logs">
+          <Key>
+            <PropertyRef Name="log_id" />
+          </Key>
+          <Property Name="log_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="log_emp_id" Type="bigint" />
+          <Property Name="log_action" Type="varchar" MaxLength="500" />
+          <Property Name="log_action_by" Type="bigint" />
+        </EntityType>
+        <Association Name="FK_tbl_logs_tbl_employees">
+          <End Role="tbl_employees" Type="Self.tbl_employees" Multiplicity="0..1" />
+          <End Role="tbl_logs" Type="Self.tbl_logs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_employees">
+              <PropertyRef Name="emp_id" />
+            </Principal>
+            <Dependent Role="tbl_logs">
+              <PropertyRef Name="log_action_by" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_logs_tbl_employees1">
+          <End Role="tbl_employees" Type="Self.tbl_employees" Multiplicity="0..1" />
+          <End Role="tbl_logs" Type="Self.tbl_logs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_employees">
+              <PropertyRef Name="emp_id" />
+            </Principal>
+            <Dependent Role="tbl_logs">
+              <PropertyRef Name="log_emp_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DB_EMPLOYEESModelStoreContainer">
+          <EntitySet Name="tbl_employees" EntityType="Self.tbl_employees" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_logs" EntityType="Self.tbl_logs" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tbl_logs_tbl_employees" Association="Self.FK_tbl_logs_tbl_employees">
+            <End Role="tbl_employees" EntitySet="tbl_employees" />
+            <End Role="tbl_logs" EntitySet="tbl_logs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_logs_tbl_employees1" Association="Self.FK_tbl_logs_tbl_employees1">
+            <End Role="tbl_employees" EntitySet="tbl_employees" />
+            <End Role="tbl_logs" EntitySet="tbl_logs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DB_EMPLOYEESModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tbl_logs">
+          <Key>
+            <PropertyRef Name="log_id" />
+          </Key>
+          <Property Name="log_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="log_emp_id" Type="Int64" />
+          <Property Name="log_action" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="log_action_by" Type="Int64" />
+          <NavigationProperty Name="tbl_employees" Relationship="DB_EMPLOYEESModel.FK_tbl_logs_tbl_employees" FromRole="tbl_logs" ToRole="tbl_employees" />
+          <NavigationProperty Name="tbl_employees1" Relationship="DB_EMPLOYEESModel.FK_tbl_logs_tbl_employees1" FromRole="tbl_logs" ToRole="tbl_employees" />
+          </EntityType>
+        <EntityContainer Name="DB_EMPLOYEESEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tbl_logs" EntityType="Self.tbl_logs" />
+          <EntitySet Name="tbl_employees" EntityType="DB_EMPLOYEESModel.tbl_employees" />
+          <AssociationSet Name="FK_tbl_logs_tbl_employees" Association="DB_EMPLOYEESModel.FK_tbl_logs_tbl_employees">
+            <End Role="tbl_employees" EntitySet="tbl_employees" />
+            <End Role="tbl_logs" EntitySet="tbl_logs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_logs_tbl_employees1" Association="DB_EMPLOYEESModel.FK_tbl_logs_tbl_employees1">
+            <End Role="tbl_employees" EntitySet="tbl_employees" />
+            <End Role="tbl_logs" EntitySet="tbl_logs" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="tbl_employees">
+          <Key>
+            <PropertyRef Name="emp_id" />
+          </Key>
+          <Property Name="emp_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="emp_first_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="emp_last_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="emp_email" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="emp_dob" Type="DateTime" Precision="0" />
+          <Property Name="emp_gender" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="emp_password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="emp_status" Type="Byte" />
+          <NavigationProperty Name="tbl_logs" Relationship="DB_EMPLOYEESModel.FK_tbl_logs_tbl_employees" FromRole="tbl_employees" ToRole="tbl_logs" />
+          <NavigationProperty Name="tbl_logs1" Relationship="DB_EMPLOYEESModel.FK_tbl_logs_tbl_employees1" FromRole="tbl_employees" ToRole="tbl_logs" />
+        </EntityType>
+        <Association Name="FK_tbl_logs_tbl_employees">
+          <End Type="DB_EMPLOYEESModel.tbl_employees" Role="tbl_employees" Multiplicity="0..1" />
+          <End Type="DB_EMPLOYEESModel.tbl_logs" Role="tbl_logs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_employees">
+              <PropertyRef Name="emp_id" />
+            </Principal>
+            <Dependent Role="tbl_logs">
+              <PropertyRef Name="log_action_by" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_logs_tbl_employees1">
+          <End Type="DB_EMPLOYEESModel.tbl_employees" Role="tbl_employees" Multiplicity="0..1" />
+          <End Type="DB_EMPLOYEESModel.tbl_logs" Role="tbl_logs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_employees">
+              <PropertyRef Name="emp_id" />
+            </Principal>
+            <Dependent Role="tbl_logs">
+              <PropertyRef Name="log_emp_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DB_EMPLOYEESModelStoreContainer" CdmEntityContainer="DB_EMPLOYEESEntities">
+          <EntitySetMapping Name="tbl_logs">
+            <EntityTypeMapping TypeName="DB_EMPLOYEESModel.tbl_logs">
+              <MappingFragment StoreEntitySet="tbl_logs">
+                <ScalarProperty Name="log_id" ColumnName="log_id" />
+                <ScalarProperty Name="log_emp_id" ColumnName="log_emp_id" />
+                <ScalarProperty Name="log_action" ColumnName="log_action" />
+                <ScalarProperty Name="log_action_by" ColumnName="log_action_by" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_employees">
+            <EntityTypeMapping TypeName="DB_EMPLOYEESModel.tbl_employees">
+              <MappingFragment StoreEntitySet="tbl_employees">
+                <ScalarProperty Name="emp_status" ColumnName="emp_status" />
+                <ScalarProperty Name="emp_password" ColumnName="emp_password" />
+                <ScalarProperty Name="emp_gender" ColumnName="emp_gender" />
+                <ScalarProperty Name="emp_dob" ColumnName="emp_dob" />
+                <ScalarProperty Name="emp_email" ColumnName="emp_email" />
+                <ScalarProperty Name="emp_last_name" ColumnName="emp_last_name" />
+                <ScalarProperty Name="emp_first_name" ColumnName="emp_first_name" />
+                <ScalarProperty Name="emp_id" ColumnName="emp_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

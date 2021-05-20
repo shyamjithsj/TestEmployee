@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DB_EMPLOYEESModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="tbl_logs">
+    <Key>
+      <PropertyRef Name="log_id" />
+    </Key>
+    <Property Name="log_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="log_emp_id" Type="Int64" />
+    <Property Name="log_action" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="log_action_by" Type="Int64" />
+    <NavigationProperty Name="tbl_employees" Relationship="DB_EMPLOYEESModel.FK_tbl_logs_tbl_employees" FromRole="tbl_logs" ToRole="tbl_employees" />
+    <NavigationProperty Name="tbl_employees1" Relationship="DB_EMPLOYEESModel.FK_tbl_logs_tbl_employees1" FromRole="tbl_logs" ToRole="tbl_employees" />
+  </EntityType>
+  <EntityContainer Name="DB_EMPLOYEESEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="tbl_logs" EntityType="Self.tbl_logs" />
+    <EntitySet Name="tbl_employees" EntityType="DB_EMPLOYEESModel.tbl_employees" />
+    <AssociationSet Name="FK_tbl_logs_tbl_employees" Association="DB_EMPLOYEESModel.FK_tbl_logs_tbl_employees">
+      <End Role="tbl_employees" EntitySet="tbl_employees" />
+      <End Role="tbl_logs" EntitySet="tbl_logs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbl_logs_tbl_employees1" Association="DB_EMPLOYEESModel.FK_tbl_logs_tbl_employees1">
+      <End Role="tbl_employees" EntitySet="tbl_employees" />
+      <End Role="tbl_logs" EntitySet="tbl_logs" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="tbl_employees">
+    <Key>
+      <PropertyRef Name="emp_id" />
+    </Key>
+    <Property Name="emp_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="emp_first_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="emp_last_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="emp_email" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="emp_dob" Type="DateTime" Precision="0" />
+    <Property Name="emp_gender" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="emp_password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="emp_status" Type="Byte" />
+    <NavigationProperty Name="tbl_logs" Relationship="DB_EMPLOYEESModel.FK_tbl_logs_tbl_employees" FromRole="tbl_employees" ToRole="tbl_logs" />
+    <NavigationProperty Name="tbl_logs1" Relationship="DB_EMPLOYEESModel.FK_tbl_logs_tbl_employees1" FromRole="tbl_employees" ToRole="tbl_logs" />
+  </EntityType>
+  <Association Name="FK_tbl_logs_tbl_employees">
+    <End Type="DB_EMPLOYEESModel.tbl_employees" Role="tbl_employees" Multiplicity="0..1" />
+    <End Type="DB_EMPLOYEESModel.tbl_logs" Role="tbl_logs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_employees">
+        <PropertyRef Name="emp_id" />
+      </Principal>
+      <Dependent Role="tbl_logs">
+        <PropertyRef Name="log_action_by" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbl_logs_tbl_employees1">
+    <End Type="DB_EMPLOYEESModel.tbl_employees" Role="tbl_employees" Multiplicity="0..1" />
+    <End Type="DB_EMPLOYEESModel.tbl_logs" Role="tbl_logs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_employees">
+        <PropertyRef Name="emp_id" />
+      </Principal>
+      <Dependent Role="tbl_logs">
+        <PropertyRef Name="log_emp_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
